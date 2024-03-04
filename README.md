@@ -262,3 +262,6 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 ## Troubleshooting
 `[CP-User] [Hermes] Replace Hermes for the right configuration`:
 - To fix this issue, you need to run `rm ios\.xcode.env.local`
+
+# TODO: 
+- [ ] Add ErrorBoundary

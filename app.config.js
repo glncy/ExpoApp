@@ -32,6 +32,7 @@ module.exports = {
     },
     experiments: {
       tsconfigPaths: true,
+      typedRoutes: true,
     },
     extra: {
       storybookEnabled: process.env.STORYBOOK_ENABLED,
@@ -52,6 +53,7 @@ module.exports = {
         },
       ],
       "@react-native-firebase/app",
+      "expo-router",
     ],
   },
 };

@@ -3,7 +3,7 @@ import messaging from "@react-native-firebase/messaging";
 import Constants from "expo-constants";
 import codePush from "react-native-code-push";
 
-import App from "@/src/app";
+import App from "@/src/app_2";
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
   console.log("Message handled in the background!", remoteMessage);
