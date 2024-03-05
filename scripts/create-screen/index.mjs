@@ -2,6 +2,17 @@ import fs from "fs";
 import inquirer from "inquirer";
 import path from "path";
 
+// Deprecated notice because of using Expo Router. add reference link https://docs.expo.dev/router/introduction/
+console.log(
+  "\x1b[33m",
+  "⚠️ This script is deprecated because of using Expo Router. Please create pages and navigators manually in /src/app.",
+  "\x1b[0m",
+  "\n",
+  "👉 https://docs.expo.dev/router/introduction/"
+);
+
+process.exit(1);
+
 // list of navigators
 const navigators = fs
   .readdirSync(path.join(process.cwd(), "src", "navigators"))

@@ -98,13 +98,13 @@ Read more about Version Validation flags [here](https://docs.expo.dev/more/expo-
 yarn create:component
 ```
 
-- Generate a new screen:
+- Generate a new screen: `(deprecated)`
 
 ```bash
 yarn create:screen
 ```
 
-- Generate a new navigator:
+- Generate a new navigator: `(deprecated)`
 
 ```bash
 yarn create:navigator
@@ -186,7 +186,7 @@ Read more about testing expo linking [here](https://docs.expo.dev/guides/linking
 - Command for CodePush release:
 
 ```bash
-appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvironment> -e node_modules/expo/AppEntry.js
+appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvironment> -e index.js
 ```
 
 ## Folder Structure Overview
@@ -201,14 +201,19 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 ├── ios/ (contains all the native code for iOS)
 ├── scripts/ (contains all the generator scripts)
 ├── src/
+│   ├── app/ (expo router files)
 │   ├── assets/ (contains all the assets of the app)
 │   ├── components/ (contains all the components of the app)
 │   ├── credentials/ (contains all the credentials of the app)
-│   ├── navigators/
+│   ├── db/ (contains database schema and migrations)
+│   ├── hooks/ (contains all the hooks of the app)
+│   ├── modules/ (contains all the modules of the app)
+│   ├── providers/ (contains all the providers of the app)
+│   ├── navigators/ (deprecated)
 │   │   ├── AppNavigator/ (contains the main app navigator)
 │   │   ├── index.ts/ (entry point of all the navigators)
 │   │   ├── navigationUtilities.ts (contains all the navigation utilities)
-│   ├── screens/
+│   ├── screens/ (deprecated)
 │   │   ├── ErrorScreen/ (contains the error screen)
 │   │   ├── index.ts (entry point of all the screens)
 │   ├── store/ (contains all the store of the app)
@@ -216,7 +221,7 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 │   ├── types/ (contains all the types of the app)
 │   ├── utils/ (contains all the utilities)
 │   ├── app.tsx (the root component of the app)
-│   └── index.tsx (configuration file of the app)
+│   └── config.ts (configuration file of the app)
 ├── .env.example (.env example file)
 ├── .eslintrc.js (eslint configuration file)
 ├── .eslintignore (eslint ignore file)
@@ -224,7 +229,8 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 ├── .lintstagedrc.json (lint staged configuration file)
 ├── .prettierrc (prettier configuration file)
 ├── app.config.js (expo configuration file)
-├── App.tsx (entry point of the app)
+├── index.js (entry point of the app)
+├── index.web.js (entry point of the web app)
 ├── babel.config.js (babel configuration file)
 ├── commitlint.config.js (commit lint configuration file)
 ├── jest.setup.js (jest setup file)
@@ -236,8 +242,8 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 ```
 
 - `yarn create:component` will generate a component inside `src/components/[atoms|molecules|organisms|templates]` folder.
-- `yarn create:navigator` will generate a navigator inside `src/navigators` folder and will modify the `src/navigators/index.ts` file and `src/AppNavigator.tsx` file.
-- `yarn create:screen` will generate a screen inside `src/screens` folder and will modify the `src/screens/index.ts` file and the target navigator file.
+- `yarn create:navigator` will generate a navigator inside `src/navigators` folder and will modify the `src/navigators/index.ts` file and `src/AppNavigator.tsx` file. `(deprecated)`
+- `yarn create:screen` will generate a screen inside `src/screens` folder and will modify the `src/screens/index.ts` file and the target navigator file. `(deprecated)`
 
 ## Packages Included
 
@@ -245,9 +251,10 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 - [React Navigation](https://reactnavigation.org/)
 - [Zustand](https://github.com/pmndrs/zustand)
 - [React Native Firebase](https://rnfirebase.io/)
-- [React Native Async Storage](https://react-native-async-storage.github.io/async-storage/docs/install/)
+- [React Native MMKV](https://github.com/mrousavy/react-native-mmkv)
 - [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/docs/)
 - [React Native Safe Area Context](https://github.com/th3rdwave/react-native-safe-area-context)
+- [Expo Router](https://docs.expo.dev/router/installation/)
 - [Expo SplashScreen](https://docs.expo.io/versions/latest/sdk/splash-screen/)
 - [Expo Status Bar](https://docs.expo.io/versions/latest/sdk/status-bar/)
 - [Expo StatusBar](https://docs.expo.io/versions/latest/sdk/status-bar/)
@@ -262,3 +269,6 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 ## Troubleshooting
 `[CP-User] [Hermes] Replace Hermes for the right configuration`:
 - To fix this issue, you need to run `rm ios\.xcode.env.local`
+
+# To Do
+- [ ] Add ErrorBoundary

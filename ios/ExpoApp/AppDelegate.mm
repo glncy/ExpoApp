@@ -1,10 +1,9 @@
 #import "AppDelegate.h"
+#import <CodePush/CodePush.h>
 #import <Firebase/Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTLinkingManager.h>
-
-#import <CodePush/CodePush.h>
 
 @implementation AppDelegate
 
