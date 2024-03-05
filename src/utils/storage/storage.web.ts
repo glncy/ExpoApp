@@ -1,4 +1,8 @@
-export const storage = window.localStorage;
+export let storage: Storage;
+
+if (typeof window !== "undefined") {
+  storage = window.localStorage;
+}
 
 /**
  * Loads a string from storage.

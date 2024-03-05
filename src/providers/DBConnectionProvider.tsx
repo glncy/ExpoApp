@@ -5,7 +5,7 @@ import { Platform } from "react-native";
 import { db } from "@/src/db";
 import migrations from "@/src/db/migrations/migrations";
 
-const DatabaseConnectionContext = createContext<{
+const DBConnectionCtx = createContext<{
   isMigrationsSuccess: boolean;
 }>({
   isMigrationsSuccess: false,
@@ -17,30 +17,30 @@ const Provider = ({ children }: { children: React.ReactNode }) => {
   if (!success) return null;
 
   return (
-    <DatabaseConnectionContext.Provider
+    <DBConnectionCtx.Provider
       value={{
         isMigrationsSuccess: success,
       }}
     >
       {children}
-    </DatabaseConnectionContext.Provider>
+    </DBConnectionCtx.Provider>
   );
 };
 
-export const DatabaseConnectionProvider = Platform.select({
+export const DBConnectionProvider = Platform.select({
   web: ({ children }: { children: React.ReactNode }) => (
-    <DatabaseConnectionContext.Provider
+    <DBConnectionCtx.Provider
       value={{
         isMigrationsSuccess: true,
       }}
     >
       {children}
-    </DatabaseConnectionContext.Provider>
+    </DBConnectionCtx.Provider>
   ),
   default: Provider,
 });
 
-export function useDatabaseConnection() {
-  const context = useContext(DatabaseConnectionContext);
+export function useDBConnectionCtx() {
+  const context = useContext(DBConnectionCtx);
   return context;
 }

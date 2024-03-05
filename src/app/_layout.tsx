@@ -1,6 +1,7 @@
 import Constants from "expo-constants";
 import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { Platform } from "react-native";
 
 import App from "@/src/app";
 import { colors } from "@/src/theme";
@@ -11,6 +12,8 @@ const RootLayout = () => {
   // ----------------
   // Storybook
   if (
+    __DEV__ &&
+    Platform.OS !== "web" &&
     Constants.expoConfig &&
     Constants.expoConfig.extra &&
     Constants.expoConfig.extra.storybookEnabled === "1"

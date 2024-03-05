@@ -11,7 +11,10 @@ export const App = () => {
 
 // CodePush Installation
 const RootApp = Config.IS_RELEASE
-  ? codePush({ checkFrequency: codePush.CheckFrequency.MANUAL })(App)
+  ? codePush({
+      checkFrequency: codePush.CheckFrequency.MANUAL,
+      deploymentKey: Config.CODEPUSH_DEPLOYMENT_KEY,
+    })(App)
   : App;
 
 registerRootComponent(RootApp);

@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export interface ConfigBaseProps {
   persistNavigation: boolean;
   catchErrors: boolean;
@@ -5,6 +7,7 @@ export interface ConfigBaseProps {
   API_URL: string;
   BASE_URL: string;
   IS_RELEASE: boolean;
+  CODEPUSH_DEPLOYMENT_KEY: string | undefined;
 }
 
 const Config: ConfigBaseProps = {
@@ -35,6 +38,14 @@ const Config: ConfigBaseProps = {
 
   // is release
   IS_RELEASE: !__DEV__,
+
+  // CodePush deployment key
+  CODEPUSH_DEPLOYMENT_KEY: Platform.select({
+    ios: process.env.EXPO_PUBLIC_CODEPUSH_DEPLOYMENT_KEY_IOS || undefined,
+    android:
+      process.env.EXPO_PUBLIC_CODEPUSH_DEPLOYMENT_KEY_ANDROID || undefined,
+    default: undefined,
+  }),
 };
 
 export default Config;

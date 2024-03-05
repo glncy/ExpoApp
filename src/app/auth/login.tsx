@@ -5,6 +5,7 @@ import Button from "@/src/components/atoms/Button";
 
 export default function LoginScreen() {
   const router = useRouter();
+
   return (
     <View>
       <Text>Login</Text>

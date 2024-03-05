@@ -22,8 +22,11 @@ import { SWRConfig } from "swr";
 import Config from "@/src/config";
 import { useAuthHook } from "@/src/hooks/useAuthHook";
 import { GoogleSignin } from "@/src/modules/@react-native-google-signin/google-signin";
-import codePush from "@/src/modules/react-native-code-push";
-import { DatabaseConnectionProvider } from "@/src/providers/DatabaseConnectionProvider";
+import {
+  CodePushProvider,
+  useCodePushProvider,
+} from "@/src/providers/CodePushProvider";
+import { DBConnectionProvider } from "@/src/providers/DBConnectionProvider";
 import { useAppStore } from "@/src/store/useAppStore";
 import { fontsToLoad } from "@/src/theme/typography";
 import { api } from "@/src/utils/axiosInstance";
@@ -64,12 +67,12 @@ if (Platform.OS !== "web") {
 
 const App = ({ children }: { children: ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
+  const [isNetworkLoaded, setIsNetworkLoaded] = useState(false);
   const { authApi } = useAuthHook(api);
   const { network } = useAppStore();
   const { isInternetReachable } = useNetInfo();
   const [isFontsLoaded] = useFonts(fontsToLoad);
-  const [isNetworkLoaded, setIsNetworkLoaded] = useState(false);
-  const [isCodePushReady, setIsCodePushReady] = useState(false);
+  const codePush = useCodePushProvider();
   const colorScheme = useColorScheme();
   const { isRestored: isNavigationStateRestored } = useNavigationPersistence(
     storage,
@@ -77,61 +80,7 @@ const App = ({ children }: { children: ReactNode }) => {
   );
 
   // handle back button
-  useBackButtonHandler((routeName) => {
-    console.log("routeName: ", routeName);
-    return Config.exitRoutes.includes(routeName);
-  });
-
-  useEffect(() => {
-    if (Config.IS_RELEASE) codePushProcess();
-    else setIsCodePushReady(true);
-  }, []);
-
-  const codePushProcess = () => {
-    if (Platform.OS !== "web") {
-      setIsCodePushReady(true);
-      return;
-    }
-
-    codePush
-      .sync(
-        {},
-        (result) => {
-          switch (result) {
-            case codePush.SyncStatus.UP_TO_DATE:
-              setIsCodePushReady(true);
-              break;
-            case codePush.SyncStatus.UPDATE_IGNORED:
-              setIsCodePushReady(true);
-              break;
-            case codePush.SyncStatus.UPDATE_INSTALLED:
-              codePush
-                .getUpdateMetadata(codePush.UpdateState.PENDING)
-                .then((update) => {
-                  if (!update?.isMandatory) {
-                    setIsCodePushReady(true);
-                  }
-                })
-                .catch(() => {
-                  setIsCodePushReady(true);
-                });
-              break;
-            case codePush.SyncStatus.UNKNOWN_ERROR:
-              setIsCodePushReady(true);
-              break;
-          }
-        },
-        (details) => {
-          console.log(
-            `Downloading update... ${details.receivedBytes} / ${details.totalBytes}`
-          );
-        }
-      )
-      .catch((e) => {
-        console.log("CodePush Error: ", e);
-        setIsCodePushReady(true);
-      });
-  };
+  useBackButtonHandler((routeName) => Config.exitRoutes.includes(routeName));
 
   useEffect(() => {
     if (isFontsLoaded && isNetworkLoaded) {
@@ -140,10 +89,10 @@ const App = ({ children }: { children: ReactNode }) => {
   }, [isFontsLoaded, isNetworkLoaded]);
 
   useEffect(() => {
-    if (isNavigationStateRestored && isReady && isCodePushReady) {
+    if (isNavigationStateRestored && isReady && codePush.isCodePushReady) {
       SplashScreen.hideAsync();
     }
-  }, [isNavigationStateRestored, isReady, isCodePushReady]);
+  }, [isNavigationStateRestored, isReady, codePush.isCodePushReady]);
 
   // handle network and internet connection
   useEffect(() => {
@@ -156,70 +105,72 @@ const App = ({ children }: { children: ReactNode }) => {
   if (!isReady) return null;
 
   return (
-    <DatabaseConnectionProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SWRConfig
-          value={{
-            fetcher: (resource) =>
-              authApi.get(resource).then((res) => res.data),
-            onError: (error) => {
-              console.log("SWR Error: ", error);
-            },
-            provider: () => new Map(),
-            isVisible: () => {
-              return true;
-            },
-            isOnline: () => {
-              return network.isOnline;
-            },
-            initFocus(callback) {
-              let appState = AppState.currentState;
+    <CodePushProvider provider={codePush}>
+      <DBConnectionProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <SWRConfig
+            value={{
+              fetcher: (resource) =>
+                authApi.get(resource).then((res) => res.data),
+              onError: (error) => {
+                console.log("SWR Error: ", error);
+              },
+              provider: () => new Map(),
+              isVisible: () => {
+                return true;
+              },
+              isOnline: () => {
+                return network.isOnline;
+              },
+              initFocus(callback) {
+                let appState = AppState.currentState;
 
-              const onAppStateChange = (nextAppState: AppStateStatus) => {
-                /* If it's resuming from background or inactive mode to active one */
-                if (
-                  appState.match(/inactive|background/) &&
-                  nextAppState === "active"
-                ) {
-                  callback();
-                }
-                appState = nextAppState;
-              };
+                const onAppStateChange = (nextAppState: AppStateStatus) => {
+                  /* If it's resuming from background or inactive mode to active one */
+                  if (
+                    appState.match(/inactive|background/) &&
+                    nextAppState === "active"
+                  ) {
+                    callback();
+                  }
+                  appState = nextAppState;
+                };
 
-              // Subscribe to the app state change events
-              const subscription = AppState.addEventListener(
-                "change",
-                onAppStateChange
-              );
+                // Subscribe to the app state change events
+                const subscription = AppState.addEventListener(
+                  "change",
+                  onAppStateChange
+                );
 
-              return () => {
-                subscription.remove();
-              };
-            },
-            initReconnect: (callback) => {
-              let networkState = network.isOnline;
-              const subscription = NetInfo.addEventListener((state) => {
-                if (networkState !== state.isInternetReachable) {
-                  callback();
-                }
-                networkState = state.isInternetReachable ?? network.isOnline;
-              });
+                return () => {
+                  subscription.remove();
+                };
+              },
+              initReconnect: (callback) => {
+                let networkState = network.isOnline;
+                const subscription = NetInfo.addEventListener((state) => {
+                  if (networkState !== state.isInternetReachable) {
+                    callback();
+                  }
+                  networkState = state.isInternetReachable ?? network.isOnline;
+                });
 
-              return () => {
-                subscription();
-              };
-            },
-          }}
-        >
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+                return () => {
+                  subscription();
+                };
+              },
+            }}
           >
-            {children}
-            <StatusBar style="auto" />
-          </ThemeProvider>
-        </SWRConfig>
-      </GestureHandlerRootView>
-    </DatabaseConnectionProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              {children}
+              <StatusBar style="auto" />
+            </ThemeProvider>
+          </SWRConfig>
+        </GestureHandlerRootView>
+      </DBConnectionProvider>
+    </CodePushProvider>
   );
 };
 
