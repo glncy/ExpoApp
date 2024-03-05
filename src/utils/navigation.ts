@@ -31,6 +31,22 @@ export const navigationRef = createNavigationContainerRef();
 /**
  * Gets the current screen from any navigation state.
  */
+let pathname = "/";
+export function getActivePathname(state: State): string {
+  const route = state.routes[state.index ?? 0];
+
+  // Found the active route -- return the name
+  if (!route.state) {
+    const finalPathname = `${pathname}${route.name}`;
+    pathname = "/";
+    return finalPathname;
+  }
+
+  pathname = `${pathname}${route.name}/`;
+  // Recursive call to deal with nested routers
+  return getActivePathname(route.state);
+}
+
 export function getActiveRouteName(state: State): string {
   const route = state.routes[state.index ?? 0];
 
@@ -68,7 +84,7 @@ export function useBackButtonHandler(canExit: (routeName: string) => boolean) {
       }
 
       // grab the current route
-      const routeName = getActiveRouteName(navigationRef.getRootState());
+      const routeName = getActivePathname(navigationRef.getRootState());
 
       // are we allowed to exit?
       if (canExitRef.current(routeName)) {
@@ -109,7 +125,7 @@ export function useNavigationPersistence(
   const [isRestored, setIsRestored] = useState(initNavState);
 
   useEffect(() => {
-    if (state.key) {
+    if (state?.key) {
       if (!isRestored) {
         restoreState();
         return;

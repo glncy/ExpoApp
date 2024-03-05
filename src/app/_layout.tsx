@@ -3,10 +3,13 @@ import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
 import App from "@/src/app";
+import { colors } from "@/src/theme";
 
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const RootLayout = () => {
+  // ----------------
+  // Storybook
   if (
     Constants.expoConfig &&
     Constants.expoConfig.extra &&
@@ -15,13 +18,21 @@ export default function RootLayout() {
     SplashScreen.hideAsync();
     return <Slot />;
   }
+  // ----------------
 
   return (
     <App>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          navigationBarColor: colors.background(),
+        }}
+      >
         <Stack.Screen name="index" />
         <Stack.Screen name="auth" />
       </Stack>
     </App>
   );
-}
+};
+
+export default RootLayout;

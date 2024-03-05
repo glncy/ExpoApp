@@ -54,6 +54,17 @@ module.exports = {
       ],
       "@react-native-firebase/app",
       "expo-router",
+      [
+        "react-native-code-push-plugin",
+        {
+          android: {
+            CodePushDeploymentKey: "cCSNRJgq1_pITIdWiRs-2XlhmOWeeaFv2a7yx",
+          },
+          ios: {
+            CodePushDeploymentKey: "OxINo08obR7Ey3dhj-Nr-P0s8FVQdTeqpotyy",
+          },
+        },
+      ],
     ],
   },
 };

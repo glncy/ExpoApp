@@ -14608,6 +14608,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-code-push-plugin@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-code-push-plugin/-/react-native-code-push-plugin-1.0.7.tgz#b51ff941427a3d60fc77347e2753695b2ecd4fd5"
+  integrity sha512-afhdl0QM2yGEVwkkQ798KL/RsM9Ej6QDdmQSSblsf5M6PXpD3G1M5Eq7ozvnuU6CAmJ2lsVVXRmTnXf4USAkUg==
+
 react-native-code-push@^8.2.1:
   version "8.2.1"
   resolved "https://registry.yarnpkg.com/react-native-code-push/-/react-native-code-push-8.2.1.tgz#25b2f1d2e6e30065d85f1707365462b2fbc22833"

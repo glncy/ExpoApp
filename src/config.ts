@@ -4,6 +4,7 @@ export interface ConfigBaseProps {
   exitRoutes: string[];
   API_URL: string;
   BASE_URL: string;
+  IS_RELEASE: boolean;
 }
 
 const Config: ConfigBaseProps = {
@@ -24,13 +25,16 @@ const Config: ConfigBaseProps = {
    * This is a list of all the route names that will exit the app if the back button
    * is pressed while in that screen. Only affects Android.
    */
-  exitRoutes: ["Welcome"],
+  exitRoutes: ["/auth/login"],
 
   // .env
   API_URL: process.env.EXPO_PUBLIC_API_URL,
 
   // remove /api from the end of the url for baseUrl
   BASE_URL: process.env.EXPO_PUBLIC_API_URL?.replace(/\/api$/, ""),
+
+  // is release
+  IS_RELEASE: !__DEV__,
 };
 
 export default Config;
