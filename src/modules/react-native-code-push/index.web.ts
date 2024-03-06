@@ -10,6 +10,11 @@ const codePush = {
     DOWNLOADING_PACKAGE: 7,
     INSTALLING_UPDATE: 8,
   },
+  CheckFrequency: {
+    ON_APP_START: 0,
+    ON_APP_RESUME: 1,
+    MANUALLY: 2,
+  },
 };
 type LocalPackage = null;
 

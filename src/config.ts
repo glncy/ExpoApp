@@ -6,7 +6,6 @@ export interface ConfigBaseProps {
   exitRoutes: string[];
   API_URL: string;
   BASE_URL: string;
-  IS_RELEASE: boolean;
   CODEPUSH_DEPLOYMENT_KEY: string | undefined;
 }
 
@@ -35,9 +34,6 @@ const Config: ConfigBaseProps = {
 
   // remove /api from the end of the url for baseUrl
   BASE_URL: process.env.EXPO_PUBLIC_API_URL?.replace(/\/api$/, ""),
-
-  // is release
-  IS_RELEASE: !__DEV__,
 
   // CodePush deployment key
   CODEPUSH_DEPLOYMENT_KEY: Platform.select({

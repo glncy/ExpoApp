@@ -4,6 +4,11 @@ import { Platform } from "react-native";
 import Config from "@/src/config";
 import codePush, { LocalPackage } from "@/src/modules/react-native-code-push";
 
+const codePushConfig = {
+  checkFrequency: codePush.CheckFrequency.MANUAL,
+  deploymentKey: Config.CODEPUSH_DEPLOYMENT_KEY,
+};
+
 export const CodePushCtx = createContext<{
   isCodePushReady: boolean;
   SyncStatus: typeof codePush.SyncStatus;
@@ -37,12 +42,12 @@ const useCodePushHook = () => {
   );
 
   useEffect(() => {
-    if (Config.IS_RELEASE) codePushProcess();
+    if (!__DEV__) codePushProcess();
     else setIsCodePushReady(true);
   }, []);
 
   useEffect(() => {
-    getMetadata();
+    if (!__DEV__) getMetadata();
   }, []);
 
   const getMetadata = async () => {
@@ -174,4 +179,10 @@ export const CodePushProvider = ({
 export function useCodePushCtx() {
   const context = useContext(CodePushCtx);
   return context;
+}
+
+export function CodePushHOC(Component: React.ComponentType) {
+  if (!__DEV__ && Platform.OS !== "web")
+    return codePush(codePushConfig)(Component);
+  return Component;
 }
