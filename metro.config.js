@@ -23,8 +23,6 @@ config.resolver.requireCycleIgnorePatterns.push(
   /(^|\/|\\)src\/db\/schemas($|\/|\\)/
 );
 
-console.log(config.resolver.requireCycleIgnorePatterns);
-
 config.resolver.sourceExts.push("sql");
 
 module.exports = config;
