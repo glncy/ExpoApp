@@ -19,11 +19,11 @@ if (STORYBOOK_ENABLED) {
   config.resolver.sourceExts.push("mjs");
 }
 
-config.resolver.requireCycleIgnorePatterns = [
-  ...config.resolver.requireCycleIgnorePatterns,
-  // ignore require cycles from these paths
-  /(^|\/|\\)src\/db\/schemas($|\/|\\)/,
-];
+config.resolver.requireCycleIgnorePatterns.push(
+  /(^|\/|\\)src\/db\/schemas($|\/|\\)/
+);
+
+console.log(config.resolver.requireCycleIgnorePatterns);
 
 config.resolver.sourceExts.push("sql");
 
