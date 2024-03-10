@@ -2,6 +2,7 @@
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { generate } = require("@storybook/react-native/scripts/generate");
 const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require("nativewind/metro");
 const path = require("path");
 const STORYBOOK_ENABLED = process.env.STORYBOOK_ENABLED === "1";
 
@@ -25,4 +26,4 @@ config.resolver.requireCycleIgnorePatterns.push(
 
 config.resolver.sourceExts.push("sql");
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });

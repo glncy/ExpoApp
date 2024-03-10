@@ -1,6 +1,11 @@
+// tailwind
+import "../global.css";
+
+// unistyles
+import "../src/theme/unistyles";
+
 import { view } from "./storybook.requires";
 import * as Font from "expo-font";
-import "./storybook.requires";
 import { fontsToLoad } from "../src/theme/typography";
 import * as storage from "../src/utils/storage";
 

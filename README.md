@@ -48,6 +48,24 @@ yarn run:[ios|android]
 yarn start
 ```
 
+5.1 Run app server with web support:
+
+```bash
+yarn web
+```
+
+5.2 Run app server with storybook:
+
+```bash
+yarn storybook
+```
+
+5.3 Run app server with api server: (experimental, read more about Expo API Route [here](https://docs.expo.dev/router/reference/api-routes/))
+
+```bash
+yarn server
+```
+
 ## Debugging the app
 
 - View Logs in Android:
@@ -186,8 +204,25 @@ Read more about testing expo linking [here](https://docs.expo.dev/guides/linking
 - Command for CodePush release:
 
 ```bash
-appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvironment> -e index.js
+appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvironment> -e node_modules/expo/AppEntry.js
 ```
+
+## The `src/components/reusables` folder
+
+This folder contains all the reusable components from [React Native Reusables](https://rnr-docs.vercel.app/getting-started/introduction/) which is inspired from [shadcn/ui](https://ui.shadcn.com) and crafted using [Nativewind V4](https://www.nativewind.dev/v4/overview) and [Radix UI](https://radix-ui.com/primitives/docs/getting-started/introduction).
+
+Every code you will copy from [React Native Reusables](https://rnr-docs.vercel.app/getting-started/introduction/) will be placed inside `src/components/reusables` folder.
+
+For more information, read the [React Native Reusables](https://rnr-docs.vercel.app/getting-started/introduction/) documentation and [Nativewind V4](https://www.nativewind.dev/v4/overview) documentation.
+
+## Unistyles
+
+Unistyles is a utility that allows you to use the same styles for both web and mobile. It has great features like media queries, responsive styles, and more. You can read more about Unistyles [here](https://www.unistyl.es/).
+
+## What to use? Unistyles or Nativewind?
+
+Use Unistyles when you need to use Stylesheets (Like `StyleSheet.create`), use Nativewind when you need to use Tailwind CSS.
+For theming, it's up to you to choose which one to use.
 
 ## Folder Structure Overview
 
@@ -265,6 +300,8 @@ appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvi
 - [Husky](https://typicode.github.io/husky/#/)
 - [Lint Staged](https://github.com/lint-staged/lint-staged)
 - [Commit Lint](https://commitlint.js.org/#/)
+- [Nativewind V4](https://www.nativewind.dev/v4/overview)
+- [Unistyles](https://www.unistyl.es/)
 
 ## Troubleshooting
 `[CP-User] [Hermes] Replace Hermes for the right configuration`:

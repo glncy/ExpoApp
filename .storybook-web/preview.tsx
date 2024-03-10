@@ -1,3 +1,9 @@
+// tailwind
+import "../global.css";
+
+// unistyles
+import "../src/theme/unistyles";
+
 import React from "react";
 import { View } from "react-native";
 import { Preview } from "@storybook/react";

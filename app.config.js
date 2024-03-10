@@ -1,3 +1,19 @@
+const webOutputHandler = () => {
+  // let's use server mode for production
+  if (process.env.NODE_ENV === "production") return "server";
+
+  // add SERVER_ENABLED flag to enable server mode
+  // for developing api router (api routes still experimental)
+  const SERVER_ENABLED = process.env.SERVER_ENABLED === "1";
+  if (SERVER_ENABLED) {
+    return "server";
+  }
+
+  // use single for web development
+  // for faster build time
+  return "single";
+};
+
 module.exports = {
   expo: {
     name: "ExpoApp",
@@ -29,7 +45,7 @@ module.exports = {
     },
     web: {
       favicon: "./src/assets/favicon.png",
-      output: "server",
+      output: webOutputHandler(),
     },
     experiments: {
       tsconfigPaths: true,

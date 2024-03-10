@@ -1,3 +1,9 @@
+// tailwind
+import "@/global.css";
+
+// unistyles
+import "@/src/theme/unistyles";
+
 import notifee from "@notifee/react-native";
 import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
 import messaging from "@react-native-firebase/messaging";
