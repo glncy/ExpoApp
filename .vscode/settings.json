@@ -2,5 +2,15 @@
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "files.associations": {
     "**/templates/**/*.{ts,tsx}": "typescriptreact"
-  }
+  },
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    ".*Styles.*" // Add ".*Styles.*" (or whatever matches your naming scheme)
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
 }
