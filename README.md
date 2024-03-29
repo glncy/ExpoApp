@@ -198,7 +198,7 @@ npx uri-scheme open expoapp://<link> --[ios|android]
 
 Read more about testing expo linking [here](https://docs.expo.dev/guides/linking/#testing-urls).
 
-## CodePush
+## CodePush (Deprecated: Migrating to Expo Updates)
 
 - What is CodePush? [Guide](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/)
 - Command for CodePush release:

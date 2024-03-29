@@ -14,6 +14,8 @@ const webOutputHandler = () => {
   return "single";
 };
 
+const EXPO_UPDATES_KEY = process.env.EXPO_UPDATES_KEY || "";
+
 module.exports = {
   expo: {
     name: "ExpoApp",
@@ -29,6 +31,15 @@ module.exports = {
       backgroundColor: "#ffffff",
     },
     assetBundlePatterns: ["**/*"],
+    updates: {
+      url: "https://sample-expo-up-server.vercel.app/api/expo-up/manifest",
+      enabled: true,
+      fallbackToCacheTimeout: 30000,
+      requestHeaders: {
+        "x-expo-updates-key": EXPO_UPDATES_KEY,
+      },
+    },
+    runtimeVersion: { policy: "appVersion" },
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.example.ExpoApp",
@@ -71,17 +82,6 @@ module.exports = {
       ],
       "@react-native-firebase/app",
       "expo-router",
-      [
-        "react-native-code-push-plugin",
-        {
-          android: {
-            CodePushDeploymentKey: "cCSNRJgq1_pITIdWiRs-2XlhmOWeeaFv2a7yx",
-          },
-          ios: {
-            CodePushDeploymentKey: "OxINo08obR7Ey3dhj-Nr-P0s8FVQdTeqpotyy",
-          },
-        },
-      ],
     ],
   },
 };

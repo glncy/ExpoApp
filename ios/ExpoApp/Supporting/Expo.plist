@@ -5,10 +5,17 @@
     <key>EXUpdatesCheckOnLaunch</key>
     <string>ALWAYS</string>
     <key>EXUpdatesEnabled</key>
-    <false/>
+    <true/>
     <key>EXUpdatesLaunchWaitMs</key>
-    <integer>0</integer>
-    <key>EXUpdatesSDKVersion</key>
-    <string>50.0.0</string>
+    <integer>30000</integer>
+    <key>EXUpdatesRequestHeaders</key>
+    <dict>
+      <key>x-expo-updates-key</key>
+      <string>8814f5f5179b6b85d14fc1189701774e</string>
+    </dict>
+    <key>EXUpdatesRuntimeVersion</key>
+    <string>1.0.0</string>
+    <key>EXUpdatesURL</key>
+    <string>https://sample-expo-up-server.vercel.app/api/expo-up/manifest</string>
   </dict>
 </plist>

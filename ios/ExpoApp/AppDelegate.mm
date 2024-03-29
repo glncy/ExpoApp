@@ -1,5 +1,4 @@
 #import "AppDelegate.h"
-#import <CodePush/CodePush.h>
 #import <Firebase/Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
@@ -31,7 +30,7 @@
 #if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
 #else
-  return [CodePush bundleURL];
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif
 }
 

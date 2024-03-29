@@ -3,14 +3,12 @@ import { ExpoRoot } from "expo-router";
 import { RequireContext } from "expo-router/build/types";
 import { Platform } from "react-native";
 
-import { CodePushHOC } from "@/src/providers/CodePushProvider";
-
 export const App = () => {
   const ctx = require.context("./src/app") as RequireContext;
   return <ExpoRoot context={ctx} />;
 };
 
-let Entry = CodePushHOC(App);
+let Entry = App;
 
 // Storybook
 if (

@@ -1,12 +1,9 @@
-import { Platform } from "react-native";
-
 export interface ConfigBaseProps {
   persistNavigation: boolean;
   catchErrors: boolean;
   exitRoutes: string[];
   API_URL: string;
   BASE_URL: string;
-  CODEPUSH_DEPLOYMENT_KEY: string | undefined;
 }
 
 const Config: ConfigBaseProps = {
@@ -34,14 +31,6 @@ const Config: ConfigBaseProps = {
 
   // remove /api from the end of the url for baseUrl
   BASE_URL: process.env.EXPO_PUBLIC_API_URL?.replace(/\/api$/, ""),
-
-  // CodePush deployment key
-  CODEPUSH_DEPLOYMENT_KEY: Platform.select({
-    ios: process.env.EXPO_PUBLIC_CODEPUSH_DEPLOYMENT_KEY_IOS || undefined,
-    android:
-      process.env.EXPO_PUBLIC_CODEPUSH_DEPLOYMENT_KEY_ANDROID || undefined,
-    default: undefined,
-  }),
 };
 
 export default Config;
