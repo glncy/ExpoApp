@@ -1,5 +1,5 @@
 import { ExpoSQLiteDatabase, drizzle } from "drizzle-orm/expo-sqlite";
-import { openDatabaseSync } from "expo-sqlite/next";
+import { openDatabaseSync } from "expo-sqlite";
 import { Platform } from "react-native";
 
 import { SubClassedDexie } from "@/src/db/dexie";
