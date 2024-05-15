@@ -1,0 +1,7 @@
+{
+  "platforms": "universal",
+  "aliases": {
+    "components": "@/src/components/reusables",
+    "lib": "@/src/utils/tailwind"
+  }
+}
