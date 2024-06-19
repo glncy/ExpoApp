@@ -26,13 +26,7 @@ cp .env.example .env
 yarn expo prebuild
 ```
 
-3. Install pods: (iOS only)
-
-```bash
-cd ios && pod install && cd ..
-```
-
-4. Install and run the app:
+3. Install and run the app:
 
 > **Note**: Use when you don't have the app installed on your device. Use also when you installed a new native module
 
@@ -198,15 +192,6 @@ npx uri-scheme open expoapp://<link> --[ios|android]
 
 Read more about testing expo linking [here](https://docs.expo.dev/guides/linking/#testing-urls).
 
-## CodePush (Deprecated: Migrating to Expo Updates)
-
-- What is CodePush? [Guide](https://docs.microsoft.com/en-us/appcenter/distribution/codepush/)
-- Command for CodePush release:
-
-```bash
-appcenter codepush release-react -a <usernameOrOrgName/TargetApp> -d <targetEnvironment> -e node_modules/expo/AppEntry.js
-```
-
 ## The `src/components/reusables` folder
 
 This folder contains all the reusable components from [React Native Reusables](https://rnr-docs.vercel.app/getting-started/introduction/) which is inspired from [shadcn/ui](https://ui.shadcn.com) and crafted using [Nativewind V4](https://www.nativewind.dev/v4/overview) and [Radix UI](https://radix-ui.com/primitives/docs/getting-started/introduction).
@@ -264,14 +249,19 @@ For theming, it's up to you to choose which one to use.
 ├── .lintstagedrc.json (lint staged configuration file)
 ├── .prettierrc (prettier configuration file)
 ├── app.config.js (expo configuration file)
-├── index.js (entry point of the app)
-├── index.web.js (entry point of the web app)
+├── App.tsx (entry point of the app)
+├── App.web.tsx (entry point of the web app)
 ├── babel.config.js (babel configuration file)
+├── cocoapods.rb (recommended cocoapods installation file)
 ├── commitlint.config.js (commit lint configuration file)
+├── components.json (React Native Reusable Components configuration file)
 ├── jest.setup.js (jest setup file)
 ├── metro.config.js (metro configuration file)
+├── nativewind-env.d.ts (nativewind types)
 ├── package.json (package configuration file)
 ├── README.md (readme file)
+├── server.js (server configuration file for API routes [Beta])
+├── tailwind.config.js (tailwind configuration file)
 ├── tsconfig.json (typescript configuration file)
 └── yarn.lock (yarn lock file)
 ```
@@ -294,7 +284,6 @@ For theming, it's up to you to choose which one to use.
 - [Expo Status Bar](https://docs.expo.io/versions/latest/sdk/status-bar/)
 - [Expo StatusBar](https://docs.expo.io/versions/latest/sdk/status-bar/)
 - [Jest](https://jestjs.io/)
-- [React Native Code Push](https://github.com/microsoft/react-native-code-push)
 - [ESLint](https://eslint.org/)
 - [Prettier](https://prettier.io/)
 - [Husky](https://typicode.github.io/husky/#/)
@@ -307,5 +296,5 @@ For theming, it's up to you to choose which one to use.
 `[CP-User] [Hermes] Replace Hermes for the right configuration`:
 - To fix this issue, you need to run `rm ios\.xcode.env.local`
 
-# To Do
+## To Do
 - [ ] Add ErrorBoundary
