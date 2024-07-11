@@ -5,24 +5,21 @@ import "@/global.css";
 import "@/src/theme/unistyles";
 
 import notifee from "@notifee/react-native";
-import NetInfo, { useNetInfo } from "@react-native-community/netinfo";
+import { useNetInfo } from "@react-native-community/netinfo";
 import messaging from "@react-native-firebase/messaging";
 import { Theme, ThemeProvider } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { ReactNode, useEffect, useState } from "react";
-import { AppState, AppStateStatus, Platform } from "react-native";
+import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SWRConfig } from "swr";
 
 import Config from "@/src/config";
-import { useAuthHook } from "@/src/hooks/useAuthHook";
 import { GoogleSignin } from "@/src/modules/@react-native-google-signin/google-signin";
 import { DBConnectionProvider } from "@/src/providers/DBConnectionProvider";
 import { useAppStore } from "@/src/store/useAppStore";
 import { fontsToLoad } from "@/src/theme/typography";
-import { api } from "@/src/utils/axiosInstance";
 import {
   useBackButtonHandler,
   useNavigationPersistence,
@@ -75,7 +72,6 @@ const DARK_THEME: Theme = {
 const App = ({ children }: { children: ReactNode }) => {
   const [isReady, setIsReady] = useState(false);
   const [isNetworkLoaded, setIsNetworkLoaded] = useState(false);
-  const { authApi } = useAuthHook(api);
   const { network } = useAppStore();
   const { isInternetReachable } = useNetInfo();
   const [isFontsLoaded] = useFonts(fontsToLoad);
@@ -137,64 +133,10 @@ const App = ({ children }: { children: ReactNode }) => {
   return (
     <DBConnectionProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <SWRConfig
-          value={{
-            fetcher: (resource) =>
-              authApi.get(resource).then((res) => res.data),
-            onError: (error) => {
-              console.log("SWR Error: ", error);
-            },
-            provider: () => new Map(),
-            isVisible: () => {
-              return true;
-            },
-            isOnline: () => {
-              return network.isOnline;
-            },
-            initFocus(callback) {
-              let appState = AppState.currentState;
-
-              const onAppStateChange = (nextAppState: AppStateStatus) => {
-                /* If it's resuming from background or inactive mode to active one */
-                if (
-                  appState.match(/inactive|background/) &&
-                  nextAppState === "active"
-                ) {
-                  callback();
-                }
-                appState = nextAppState;
-              };
-
-              // Subscribe to the app state change events
-              const subscription = AppState.addEventListener(
-                "change",
-                onAppStateChange
-              );
-
-              return () => {
-                subscription.remove();
-              };
-            },
-            initReconnect: (callback) => {
-              let networkState = network.isOnline;
-              const subscription = NetInfo.addEventListener((state) => {
-                if (networkState !== state.isInternetReachable) {
-                  callback();
-                }
-                networkState = state.isInternetReachable ?? network.isOnline;
-              });
-
-              return () => {
-                subscription();
-              };
-            },
-          }}
-        >
-          <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-            {children}
-            <StatusBar style="auto" />
-          </ThemeProvider>
-        </SWRConfig>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          {children}
+          <StatusBar style="auto" />
+        </ThemeProvider>
       </GestureHandlerRootView>
     </DBConnectionProvider>
   );

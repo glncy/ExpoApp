@@ -4,6 +4,7 @@ export interface ConfigBaseProps {
   exitRoutes: string[];
   API_URL: string;
   BASE_URL: string;
+  ACCESS_TOKEN_KEY: string;
 }
 
 const Config: ConfigBaseProps = {
@@ -31,6 +32,9 @@ const Config: ConfigBaseProps = {
 
   // remove /api from the end of the url for baseUrl
   BASE_URL: process.env.EXPO_PUBLIC_API_URL?.replace(/\/api$/, ""),
+
+  // Access token key
+  ACCESS_TOKEN_KEY: "accessToken",
 };
 
 export default Config;

@@ -1,19 +1,17 @@
-import axios from "axios";
-
 import Config from "@/src/config";
+import { createAxiosInstance } from "@/src/utils/axios/initialApi";
+import { loadString } from "@/src/utils/storage";
 
-const initialApi = axios.create({
-  baseURL: Config.API_URL,
-  timeout: 10000,
-  headers: {
-    "Content-Type": "application/json",
-    Accept: "application/json",
-  },
-});
+const initialApi = createAxiosInstance();
 
 initialApi.interceptors.request.use(
   function (config) {
-    // Do something before request is sent
+    const accessToken = loadString(Config.ACCESS_TOKEN_KEY);
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    } else {
+      delete config.headers.common.Authorization;
+    }
     return config;
   },
   function (error) {
@@ -35,4 +33,4 @@ initialApi.interceptors.response.use(
   }
 );
 
-export const api = initialApi;
+export const authApi = initialApi;
