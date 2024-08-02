@@ -4,22 +4,27 @@ import { Platform } from "react-native";
 
 import { db } from "@/src/db";
 import migrations from "@/src/db/migrations/migrations";
+import { useSeedersHooks } from "@/src/db/seeders/useSeedersHooks";
 
 const DBConnectionCtx = createContext<{
   isMigrationsSuccess: boolean;
+  isSeedersSuccess: boolean;
 }>({
   isMigrationsSuccess: false,
+  isSeedersSuccess: false,
 });
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  const { success } = useMigrations(db, migrations);
+  const { success: migrationDidRunSuccess } = useMigrations(db, migrations);
+  const { seedersDidRunSuccess } = useSeedersHooks(migrationDidRunSuccess);
 
-  if (!success) return null;
+  if (!migrationDidRunSuccess && !seedersDidRunSuccess) return null;
 
   return (
     <DBConnectionCtx.Provider
       value={{
-        isMigrationsSuccess: success,
+        isMigrationsSuccess: migrationDidRunSuccess,
+        isSeedersSuccess: seedersDidRunSuccess,
       }}
     >
       {children}
@@ -32,6 +37,7 @@ export const DBConnectionProvider = Platform.select({
     <DBConnectionCtx.Provider
       value={{
         isMigrationsSuccess: true,
+        isSeedersSuccess: true,
       }}
     >
       {children}

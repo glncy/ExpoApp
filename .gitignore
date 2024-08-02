@@ -40,3 +40,6 @@ yarn-error.*
 
 expo-env.d.ts
 # @end expo-cli
+
+# Unit Test Sample DB
+.unit-test-db

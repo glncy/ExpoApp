@@ -3,7 +3,10 @@ import { useEffect } from "react";
 
 import { db } from "@/src/db";
 import { SelectDownload } from "@/src/db/schema";
-import { deleteDownloadById, insertDownload } from "@/src/db/utils/download";
+import {
+  deleteDownloadByLocalId,
+  insertDownload,
+} from "@/src/db/utils/download";
 
 export const useDownloadHook = () => {
   const filesDir = FileSystem.documentDirectory + "appFiles/";
@@ -39,7 +42,7 @@ export const useDownloadHook = () => {
               download,
             };
           } else {
-            const [newDownload] = await insertDownload({
+            const newDownload = await insertDownload({
               url: file.uri,
               fileName,
             });
@@ -74,7 +77,7 @@ export const useDownloadHook = () => {
 
       const uri = await downloadResumable.downloadAsync();
       if (uri) {
-        const [newDownload] = await insertDownload({
+        const newDownload = await insertDownload({
           url: uri.uri,
           fileName,
         });
@@ -112,7 +115,7 @@ export const useDownloadHook = () => {
         } else {
           if (!isExist.reel) {
             await FileSystem.deleteAsync(filesDir + file);
-            await deleteDownloadById(isExist.localId);
+            await deleteDownloadByLocalId(isExist.localId);
 
             // remove from downloads
             const index = downloads.findIndex(
@@ -127,7 +130,7 @@ export const useDownloadHook = () => {
 
       downloads.forEach(async (download) => {
         if (download?.fileName && !files.includes(download.fileName)) {
-          await deleteDownloadById(download.localId);
+          await deleteDownloadByLocalId(download.localId);
         }
       });
       console.log("useDownloadHook: Done Cleanup.");

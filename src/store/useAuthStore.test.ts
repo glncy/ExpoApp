@@ -1,3 +1,5 @@
+import { faker } from "@faker-js/faker";
+
 import { useAuthStore } from "@/src/store/useAuthStore";
 
 describe("useAuthStore", () => {
@@ -7,8 +9,9 @@ describe("useAuthStore", () => {
     useAuthStore.setState(initialStore, true);
   });
 
-  it("can set accessToken", () => {
-    useAuthStore.getState().setAccessToken("token");
-    expect(useAuthStore.getState().accessToken).toBe(true);
+  it("test setAccessToken function", () => {
+    const fakeValue = faker.string.nanoid();
+    useAuthStore.getState().setAccessToken(fakeValue);
+    expect(useAuthStore.getState().accessToken).toBe(fakeValue);
   });
 });

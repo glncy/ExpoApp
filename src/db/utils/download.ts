@@ -1,15 +1,23 @@
-import { eq } from "drizzle-orm";
+import { eq, getTableColumns } from "drizzle-orm";
 
 import { db } from "../";
 
 import { InsertDownload, download } from "@/src/db/schema";
 
-export const insertDownload = (newDownload: InsertDownload) =>
-  db.insert(download).values(newDownload).returning({
-    localId: download.localId,
-    url: download.url,
-    fileName: download.fileName,
-  });
+const allColumns = getTableColumns(download);
 
-export const deleteDownloadById = (localId: number) =>
-  db.delete(download).where(eq(download.localId, localId));
+export const insertDownload = async (newDownload: InsertDownload) => {
+  const [result] = await db
+    .insert(download)
+    .values(newDownload)
+    .returning(allColumns);
+  return result;
+};
+
+export const deleteDownloadByLocalId = async (localId: number) => {
+  const [result] = await db
+    .delete(download)
+    .where(eq(download.localId, localId))
+    .returning(allColumns);
+  return result;
+};

@@ -24,9 +24,9 @@ import {
   useBackButtonHandler,
   useNavigationPersistence,
 } from "@/src/utils/navigation";
+import { NAV_THEME } from "@/src/utils/reusables/constants";
+import { useColorScheme } from "@/src/utils/reusables/useColorScheme";
 import * as storage from "@/src/utils/storage";
-import { NAV_THEME } from "@/src/utils/tailwind/constants";
-import { useColorScheme } from "@/src/utils/tailwind/useColorScheme";
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE";
 
